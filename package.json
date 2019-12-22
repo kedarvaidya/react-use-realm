@@ -1,8 +1,10 @@
 {
   "name": "react-use-realm",
   "version": "0.1.0",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/commonjs/index.js",
+  "module": "dist/module/index.js",
+  "react-native": "dist/module/index.js",
+  "types": "dist/typescript/index.d.ts",
   "author": "Kedar Vaidya",
   "license": "MIT",
   "homepage": "https://github.com/kedarvaidya/react-use-realm",
@@ -14,14 +16,18 @@
     "type": "git"
   },
   "scripts": {
-    "build": "tsc"
+    "prepare": "bob build"
   },
   "dependencies": {
-    "@babel/runtime": "^7.7.7",
     "use-force-update": "^1.0.7"
   },
   "devDependencies": {
+    "@babel/cli": "^7.7.7",
+    "@babel/core": "^7.7.7",
+    "@babel/runtime": "^7.7.7",
+    "@react-native-community/bob": "^0.7.0",
     "@types/react": "16.9.0",
+    "metro-react-native-babel-preset": "^0.57.0",
     "react": "16.9.0",
     "realm": "3.6.0",
     "typescript": "^3.7.4"
@@ -32,5 +38,14 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "@react-native-community/bob": {
+    "source": "src",
+    "output": "dist",
+    "targets": [
+      "commonjs",
+      "module",
+      "typescript"
+    ]
+  }
 }
