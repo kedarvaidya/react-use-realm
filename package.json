@@ -1,0 +1,35 @@
+{
+  "name": "react-use-realm",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "author": "Kedar Vaidya",
+  "license": "MIT",
+  "homepage": "https://github.com/kedarvaidya/react-use-realm",
+  "bugs": {
+    "url": "https://github.com/kedarvaidya/react-use-realm/issues"
+  },
+  "repository": {
+    "url": "https://github.com/kedarvaidya/react-use-realm",
+    "type": "git"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "use-force-update": "^1.0.7"
+  },
+  "devDependencies": {
+    "@types/react": "16.9.0",
+    "react": "16.9.0",
+    "realm": "3.6.0",
+    "typescript": "^3.7.4"
+  },
+  "peerDependencies": {
+    "react": ">=16.8",
+    "realm": ">=3.0"
+  },
+  "files": [
+    "dist"
+  ]
+}
