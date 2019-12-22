@@ -17,6 +17,7 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@babel/runtime": "^7.7.7",
     "use-force-update": "^1.0.7"
   },
   "devDependencies": {
