@@ -1,38 +1,25 @@
-import * as React from 'react';
-import useForceUpdate from 'use-force-update';
-import { RealmContext } from './RealmContext';
+import * as React from "react";
+import useForceUpdate from "use-force-update";
+import { RealmContext } from "./RealmContext";
 
 export interface IUseRealmQueryParams {
   type: string;
   filter?: string;
   variables?: any[];
   sort?: Realm.SortDescriptor[];
-};
+}
 
 export function useRealmQuery<T>({
   type,
   filter,
   variables,
-  sort,
+  sort
 }: IUseRealmQueryParams): Realm.Collection<T> | undefined {
   const { realm } = React.useContext(RealmContext);
-  const [results, setResults] = React.useState<Realm.Collection<T> | undefined>(
-    undefined,
-  );
 
   const forceUpdate = useForceUpdate();
 
-  React.useEffect(() => {
-    function handleChange(
-      collection: Realm.Collection<T>,
-      changes: Realm.CollectionChangeSet,
-    ) {
-      const {insertions, modifications, deletions} = changes;
-      if ((insertions.length + modifications.length + deletions.length) > 0) {
-        forceUpdate();
-      }
-    }
-
+  const query = React.useMemo(() => {
     if (realm) {
       let query = realm.objects<T>(type);
       if (filter) {
@@ -45,11 +32,26 @@ export function useRealmQuery<T>({
       if (sort) {
         query = query.sorted(sort);
       }
+      return query;
+    }
+  }, [realm, type, filter, variables, sort]);
+
+  React.useEffect(() => {
+    function handleChange(
+      _collection: Realm.Collection<T>,
+      changes: Realm.CollectionChangeSet
+    ) {
+      const { insertions, modifications, deletions } = changes;
+      if (insertions.length + modifications.length + deletions.length > 0) {
+        forceUpdate();
+      }
+    }
+
+    if (query) {
       query.addListener(handleChange);
-      setResults(query);
       return () => query.removeListener(handleChange);
     }
-  }, [realm, type, filter, variables, sort, forceUpdate]);
+  }, [query, forceUpdate]);
 
-  return results;
+  return query;
 }

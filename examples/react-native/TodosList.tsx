@@ -48,7 +48,7 @@ export default function TodosList() {
             {Platform.OS === 'android' && <Picker mode="dropdown" selectedValue={filter} prompt={filterDisplayNames[filter]} style={{ height: 40, width: '100%', margin: 16 }} onValueChange={value => setFilter(value)}>
                 {Object.keys(filterDisplayNames).map(filter => <Picker.Item key={filter} value={filter} label={filterDisplayNames[filter as Filter]} />)}
             </Picker>}
-            {todos ? <FlatList data={todos} renderItem={({ item }) => <TodoItem todo={item} />} /> : <Text>No tasks present</Text>}
+            {<FlatList data={todos as Realm.Collection<ITodo>} renderItem={({ item }) => <TodoItem todo={item} />} />}
         </>
     )
 }
