@@ -1,4 +1,6 @@
-# React Use Realm (Work in progress)
+# React Use Realm
+
+[![npm version](https://badge.fury.io/js/react-use-realm.svg)](https://badge.fury.io/js/react-use-realm)
 
 Use Realm with [React Hooks](https://reactjs.org/docs/hooks-intro.html)
 - Provides a [React Context](https://reactjs.org/docs/context.html) for child components to read from and write to the database.
@@ -7,13 +9,13 @@ Use Realm with [React Hooks](https://reactjs.org/docs/hooks-intro.html)
 **Please note:** This package uses Realm JS, and it, therefore, has the same limitation that it needs access to the device file system and therefore cannot run a "regular" web-browser. This package is meant to be used in an environment like Node.js, React Native or Electron where the JavaScript thread has access to the file system.
 
 ## Installation
-Using NPM
+Using *NPM*
 ```shell
-npm install --save https://github.com/kedarvaidya/react-use-realm.git
+npm install --save react-use-realm
 ```
-Using Yarn
+Using *Yarn*
 ```shell
-yarn add https://github.com/kedarvaidya/react-use-realm.git
+yarn add react-use-realm
 ```
 
 **Note:** This package depends on Realm JS version 3.0 or above and React at version 16.8 or above, but to allow maximum flexibility these are not direct dependencies but rather peer dependencies that need to be installed for this package to function correctly.
