@@ -1,27 +1,25 @@
 import * as React from "react";
-import useForceUpdate from "use-force-update";
 import { RealmContext } from "./RealmContext";
+import useRealmResultsListener from "./useRealmResultsListener";
 
-export interface IUseRealmQueryParams {
-  type: string;
+export interface IUseRealmQueryParams<T> {
+  source: string | Realm.Results<T>;
   filter?: string;
   variables?: any[];
   sort?: Realm.SortDescriptor[];
 }
 
 export function useRealmQuery<T>({
-  type,
+  source,
   filter,
   variables,
   sort
-}: IUseRealmQueryParams): Realm.Collection<T> | undefined {
+}: IUseRealmQueryParams<T>): Realm.Collection<T> | undefined {
   const { realm } = React.useContext(RealmContext);
-
-  const forceUpdate = useForceUpdate();
 
   const query = React.useMemo(() => {
     if (realm) {
-      let query = realm.objects<T>(type);
+      let query = typeof source === 'string' ? realm.objects<T>(source) : source;
       if (filter) {
         if (variables) {
           query = query.filtered(filter, ...variables);
@@ -34,24 +32,9 @@ export function useRealmQuery<T>({
       }
       return query;
     }
-  }, [realm, type, filter, variables, sort]);
+  }, [realm, source, filter, variables, sort]);
 
-  React.useEffect(() => {
-    function handleChange(
-      _collection: Realm.Collection<T>,
-      changes: Realm.CollectionChangeSet
-    ) {
-      const { insertions, modifications, deletions } = changes;
-      if (insertions.length + modifications.length + deletions.length > 0) {
-        forceUpdate();
-      }
-    }
-
-    if (query) {
-      query.addListener(handleChange);
-      return () => query.removeListener(handleChange);
-    }
-  }, [query, forceUpdate]);
+  useRealmResultsListener<T>(query);
 
   return query;
 }

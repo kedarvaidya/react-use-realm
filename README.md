@@ -90,7 +90,7 @@ import MyTodoItem from "./MyTodoItem";
 
 const MyTodoList = () => {
   const todos = useRealmQuery({
-    type: TodoSchema.name
+    source: TodoSchema.name
   });
 
   return (
@@ -107,8 +107,8 @@ const MyTodoList = () => {
 
 ```javascript
 const todos = useRealmQuery({
-  type: TodoSchema.name,
-  filter: "done != true"
+  source: TodoSchema.name,
+  filter: 'done != true'
 });
 ```
 
@@ -116,8 +116,8 @@ const todos = useRealmQuery({
 
 ```javascript
 const todos = useRealmQuery({
-  type: TodoSchema.name,
-  filter: "text CONTAINS $0",
+  source: TodoSchema.name,
+  filter: 'text CONTAINS $0',
   variables: mySearchString
 });
 ```
@@ -126,8 +126,8 @@ const todos = useRealmQuery({
 
 ```javascript
 const todos = useRealmQuery({
-  type: TodoSchema.name,
-  sort: ["createdAt"]
+  source: TodoSchema.name,
+  sort: ['createdAt']
 });
 ```
 
@@ -135,8 +135,17 @@ const todos = useRealmQuery({
 
 ```javascript
 const todos = useRealmQuery({
-  type: TodoSchema.name,
-  sort: [["createdAt", /* descending */ true]]
+  source: TodoSchema.name,
+  sort: [['createdAt', /* descending */ true]]
+});
+```
+
+#### Queying Linked Objects Example
+
+```javascript
+const workspaceTodos = useRealmQuery({
+  source: workspace.todos,
+  filter: 'text CONTAINS $0',
 });
 ```
 

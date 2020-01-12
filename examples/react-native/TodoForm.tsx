@@ -2,9 +2,10 @@ import React from 'react';
 import { View, TextInput, Button } from 'react-native';
 import cuid from 'cuid';
 import { RealmContext } from 'react-use-realm';
-import { ITodo, TodoSchema } from './database';
+import { TodoSchema } from './database';
+import { IWorkspace } from 'types';
 
-export default function TodoForm() {
+export default function TodoForm({ workspace }: { workspace: IWorkspace }) {
     const [title, setTitle] = React.useState('');
 
     const { realm } = React.useContext(RealmContext);
@@ -14,7 +15,8 @@ export default function TodoForm() {
             realm.write(() => {
                 const todo = {
                     id: cuid(),
-                    title
+                    title,
+                    workspace
                 };
                 realm.create(TodoSchema.name, todo);
             });

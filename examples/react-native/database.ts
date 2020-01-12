@@ -1,10 +1,14 @@
 import Realm from 'realm';
 import cuid from 'cuid';
 
-export interface ITodo {
-  id: string,
-  title: string,
-  doneAt?: Date
+export const WorkspaceSchema: Realm.ObjectSchema = {
+  name: 'Workspace',
+  primaryKey: 'id',
+  properties: {
+    id: 'string',
+    title: 'string',
+    todos: { type: 'linkingObjects', objectType: 'Todo', property: 'workspace' }
+  }
 }
 
 export const TodoSchema: Realm.ObjectSchema = {
@@ -13,25 +17,36 @@ export const TodoSchema: Realm.ObjectSchema = {
   properties: {
     id: 'string',
     title: 'string',
-    doneAt: { type: 'date', optional: true }
+    doneAt: { type: 'date', optional: true },
+    workspace: 'Workspace'
   }
 };
 
-export const schemas = [TodoSchema];
+export const schemas = [WorkspaceSchema, TodoSchema];
 
-export const realm = new Realm({ schema: schemas });
+export const realm = new Realm({ schema: schemas, deleteRealmIfMigrationNeeded: true });
 
 export function seedDatabase() {
   if (realm.empty) {
     realm.write(() => {
-      [1, 2, 3].forEach((n) => {
-        const todo = {
-          id: cuid(),
-          title: `Task ${n}`,
-          doneAt: undefined
+      ['personal', 'work'].forEach(workspaceId => {
+        const workspaceTitle = workspaceId[0].toUpperCase() + workspaceId.substr(1);
+        let workspace = {
+          id: workspaceId,
+          title: workspaceTitle
         };
+        workspace = realm.create(WorkspaceSchema.name, workspace);
 
-        realm.create(TodoSchema.name, todo);
+        [1, 2, 3].forEach((n) => {
+          const todo = {
+            id: cuid(),
+            title: `${workspaceTitle} Task ${n}`,
+            doneAt: undefined,
+            workspace: workspace
+          };
+  
+          realm.create(TodoSchema.name, todo);
+        });
       });
     });
   }

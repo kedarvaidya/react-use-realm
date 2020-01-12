@@ -1,16 +1,8 @@
 import React from 'react';
-import { FlatList, View, Text, Switch, Picker, Platform } from 'react-native';
+import { FlatList, View, Text, Switch } from 'react-native';
 import { useRealmQuery, RealmContext } from 'react-use-realm';
 
-import { ITodo, TodoSchema } from './database';
-
-type Filter = 'all' | 'done' | 'not-done';
-
-const filterDisplayNames: Record<Filter, string> = {
-    'all': 'All Tasks',
-    'done': 'Completed Tasks',
-    'not-done': 'Incomplete Tasks'
-};
+import { Filter, ITodo, IWorkspace } from 'types';
 
 const filterQueries: Record<Filter, string | undefined> = {
     'all': undefined,
@@ -35,19 +27,14 @@ function TodoItem({ todo }: { todo: ITodo }) {
     </View>
 }
 
-export default function TodosList() {
-    const [filter, setFilter] = React.useState<Filter>('all');
-
+export default function TodosList({ workspace, filter }: { workspace: IWorkspace, filter: Filter }) {
     const todos = useRealmQuery<ITodo>({
-        type: TodoSchema.name,
+        source: workspace.todos,
         filter: filterQueries[filter]
     });
 
     return (
         <>
-            {Platform.OS === 'android' && <Picker mode="dropdown" selectedValue={filter} prompt={filterDisplayNames[filter]} style={{ height: 40, width: '100%', margin: 16 }} onValueChange={value => setFilter(value)}>
-                {Object.keys(filterDisplayNames).map(filter => <Picker.Item key={filter} value={filter} label={filterDisplayNames[filter as Filter]} />)}
-            </Picker>}
             {<FlatList data={todos as Realm.Collection<ITodo>} renderItem={({ item }) => <TodoItem todo={item} />} />}
         </>
     )
