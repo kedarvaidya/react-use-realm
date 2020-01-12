@@ -89,7 +89,7 @@ import { TodoSchema } from "./my-realm-schema";
 import MyTodoItem from "./MyTodoItem";
 
 const MyTodoList = () => {
-  const [todos] = useRealmQuery({
+  const todos = useRealmQuery({
     type: TodoSchema.name
   });
 
@@ -106,7 +106,7 @@ const MyTodoList = () => {
 #### Filtering Example
 
 ```javascript
-const [todos] = useRealmQuery({
+const todos = useRealmQuery({
   type: TodoSchema.name,
   filter: "done != true"
 });
@@ -115,7 +115,7 @@ const [todos] = useRealmQuery({
 #### Filtering Example with Variables
 
 ```javascript
-const [todos] = useRealmQuery({
+const todos = useRealmQuery({
   type: TodoSchema.name,
   filter: "text CONTAINS $0",
   variables: mySearchString
@@ -125,7 +125,7 @@ const [todos] = useRealmQuery({
 #### Sorting Example
 
 ```javascript
-const [todos] = useRealmQuery({
+const todos = useRealmQuery({
   type: TodoSchema.name,
   sort: ["createdAt"]
 });
@@ -134,7 +134,7 @@ const [todos] = useRealmQuery({
 #### Sorting Descending Example
 
 ```javascript
-const [todos] = useRealmQuery({
+const todos = useRealmQuery({
   type: TodoSchema.name,
   sort: [["createdAt", /* descending */ true]]
 });
