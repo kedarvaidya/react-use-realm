@@ -1,9 +1,11 @@
 import * as React from "react";
 import { RealmContext } from "./RealmContext";
 import useRealmResultsListener from "./useRealmResultsListener";
+import { flattenArrayOfArrays } from "./utils";
 
 export interface IUseRealmQueryParams<T> {
   source: string | Realm.Results<T>;
+  sourceKey?: string,
   filter?: string;
   variables?: any[];
   sort?: Realm.SortDescriptor[];
@@ -11,11 +13,18 @@ export interface IUseRealmQueryParams<T> {
 
 export function useRealmQuery<T>({
   source,
+  sourceKey,
   filter,
   variables,
   sort
 }: IUseRealmQueryParams<T>): Realm.Collection<T> | undefined {
   const { realm } = React.useContext(RealmContext);
+
+  if (typeof sourceKey === 'undefined' && typeof source !== 'string') {
+    console.warn(`Warning: 'sourceKey' is required when realm results are passed as 'source'. 'sourceKey' is used by 'react-use-realm' to prevent re-renders.`);
+  }
+
+  const finalSourceKey = typeof sourceKey !== 'undefined' ? sourceKey : source;
 
   const query = React.useMemo(() => {
     if (realm) {
@@ -32,7 +41,7 @@ export function useRealmQuery<T>({
       }
       return query;
     }
-  }, [realm, source, filter, variables, sort]);
+  }, [realm, finalSourceKey , filter, ...(variables ? variables : []), ...(sort ? flattenArrayOfArrays(sort) : [])]);
 
   useRealmResultsListener<T>(query);
 

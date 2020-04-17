@@ -30,6 +30,7 @@ function TodoItem({ todo }: { todo: ITodo }) {
 export default function TodosList({ workspace, filter }: { workspace: IWorkspace, filter: Filter }) {
     const todos = useRealmQuery<ITodo>({
         source: workspace.todos,
+        sourceKey: 'WorkspaceTodos',
         filter: filterQueries[filter]
     });
 

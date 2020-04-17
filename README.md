@@ -145,6 +145,7 @@ const todos = useRealmQuery({
 ```javascript
 const workspaceTodos = useRealmQuery({
   source: workspace.todos,
+  sourceKey: 'WorkspaceTodos',
   filter: 'text CONTAINS $0',
   variables: [mySearchString]
 });

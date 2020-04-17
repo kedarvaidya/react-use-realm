@@ -14,7 +14,7 @@ export default function useRealmResultsListener<T>(query: Realm.Results<T> | und
         forceUpdate();
       }
     }
-
+    
     if (query) {
       query.addListener(handleChange);
       return () => query.removeListener(handleChange);
