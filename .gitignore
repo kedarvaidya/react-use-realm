@@ -26,3 +26,11 @@ dist/
 
 # Optional eslint cache
 .eslintcache
+
+# Realm Databases
+*.realm
+*.realm.lock
+*.realm.management
+
+# Coverage reports
+coverage/

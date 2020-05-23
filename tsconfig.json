@@ -16,6 +16,6 @@
   "include": [
     "src/**/*.tsx",
     "src/**/*.ts",
-    "src/**/*.d.ts"
+    "src/**/*.d.ts", "tests/useRealmQuery.test.tsx", "tests/utils.test.ts"
   ]
 }
