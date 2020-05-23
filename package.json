@@ -30,7 +30,7 @@
     "metro-react-native-babel-preset": "^0.57.0",
     "react": "16.9.0",
     "realm": "3.6.0",
-    "typescript": "^3.7.4"
+    "typescript": "^3.9.3"
   },
   "peerDependencies": {
     "react": ">=16.8",
