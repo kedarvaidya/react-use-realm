@@ -118,7 +118,7 @@ const todos = useRealmQuery({
 const todos = useRealmQuery({
   source: TodoSchema.name,
   filter: 'text CONTAINS $0',
-  variables: mySearchString
+  variables: [mySearchString]
 });
 ```
 
@@ -146,6 +146,7 @@ const todos = useRealmQuery({
 const workspaceTodos = useRealmQuery({
   source: workspace.todos,
   filter: 'text CONTAINS $0',
+  variables: [mySearchString]
 });
 ```
 
