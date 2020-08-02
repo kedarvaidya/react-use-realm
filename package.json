@@ -1,6 +1,6 @@
 {
   "name": "react-use-realm",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "dist/commonjs/index.js",
   "module": "dist/module/index.js",
   "react-native": "dist/module/index.js",
